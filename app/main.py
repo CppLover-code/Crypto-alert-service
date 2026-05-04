@@ -1,6 +1,8 @@
 import asyncio
 from app.api.client import CoinGeckoClient
 from app.config import load_config
+from app.storage.file_storage import FileStorage
+from app.services.price_service import PriceService
 
 
 async def main():
@@ -12,14 +14,18 @@ async def main():
         max_retries=config.api.max_retries
     )
 
+    service = PriceService(client, config)
+
+    storage = FileStorage(config.storage.file_path)
+
     await client.start()
 
     try:
-        # 🔥 берём монеты из config
-        coins = [coin.id for coin in config.coins]
+        data = await service.fetch_prices()
 
-        prices = await client.get_prices(coins)
-        print(prices)
+        storage.save(data)
+
+        print(data)
 
     finally:
         await client.close()

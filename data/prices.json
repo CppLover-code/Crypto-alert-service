@@ -1,0 +1,18 @@
+[
+    {
+        "timestamp": "2026-05-04T08:18:50.506739",
+        "prices": {
+            "bitcoin": 79721,
+            "ethereum": 2361.55,
+            "celestia": 0.353566
+        }
+    },
+    {
+        "timestamp": "2026-05-04T08:22:19.871754",
+        "prices": {
+            "bitcoin": 79738,
+            "ethereum": 2360.44,
+            "celestia": 0.353603
+        }
+    }
+]
