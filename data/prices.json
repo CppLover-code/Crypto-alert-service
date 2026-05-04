@@ -14,5 +14,21 @@
             "ethereum": 2360.44,
             "celestia": 0.353603
         }
+    },
+    {
+        "timestamp": "2026-05-04T08:23:50.146242",
+        "prices": {
+            "bitcoin": 79676,
+            "ethereum": 2359.63,
+            "celestia": 0.35367
+        }
+    },
+    {
+        "timestamp": "2026-05-04T08:31:50.299651",
+        "prices": {
+            "bitcoin": 79701,
+            "ethereum": 2359.11,
+            "celestia": 0.353683
+        }
     }
 ]

@@ -1,0 +1,3 @@
+2026-05-04 12:31:50,040 | INFO | Fetching prices...
+2026-05-04 12:31:50,299 | INFO | Prices fetched: {'bitcoin': 79701, 'ethereum': 2359.11, 'celestia': 0.353683}
+2026-05-04 12:31:50,307 | INFO | Data saved successfully
