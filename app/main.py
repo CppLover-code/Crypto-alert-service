@@ -1,15 +1,24 @@
 import asyncio
 from app.api.client import CoinGeckoClient
+from app.config import load_config
+
 
 async def main():
+    config = load_config()
+
     client = CoinGeckoClient(
-        base_url= "https://api.coingecko.com/api/v3"
+        base_url=config.api.base_url,
+        timeout=config.api.timeout,
+        max_retries=config.api.max_retries
     )
 
     await client.start()
 
     try:
-        prices = await client.get_prices(["bitcoin", "ethereum"])
+        # 🔥 берём монеты из config
+        coins = [coin.id for coin in config.coins]
+
+        prices = await client.get_prices(coins)
         print(prices)
 
     finally:
