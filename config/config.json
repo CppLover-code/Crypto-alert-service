@@ -17,6 +17,11 @@
             "id": "ethereum",
             "symbol": "ETH",
             "threshold": 5000
+        },
+        {
+            "id": "celestia",
+            "symbol": "TIA",
+            "threshold": 20
         }
     ],
 

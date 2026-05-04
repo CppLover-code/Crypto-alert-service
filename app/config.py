@@ -12,7 +12,7 @@ class CoinConfig:
 class APIConfig:
     def __init__(self, data: dict):
         self.base_url: str = data["base_url"]
-        self.timeout: int = data("timeout", 5)
+        self.timeout: int = data.get("timeout", 5)
         self.max_retries: int = data.get("max_retries", 3)
 
 class StorageConfig:
