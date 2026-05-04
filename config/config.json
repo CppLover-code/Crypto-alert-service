@@ -1,0 +1,31 @@
+{
+    "interval_seconds": 60,
+
+    "api": {
+        "base_url": "https://api.coingecko.com/api/v3",
+        "timeout": 5,
+        "max_retries": 3
+    },
+    
+    "coins": [
+        {
+            "id": "bitcoin",
+            "symbol": "BTC",
+            "threshold": 100000
+        },
+        {
+            "id": "ethereum",
+            "symbol": "ETH",
+            "threshold": 5000
+        }
+    ],
+
+    "storage": {
+        "file_path": "data/prices.json"
+    },
+
+    "logging": {
+        "level": "INFO",
+        "file_path": "logs/app.log"
+    }
+}
