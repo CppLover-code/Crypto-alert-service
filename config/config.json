@@ -11,17 +11,26 @@
         {
             "id": "bitcoin",
             "symbol": "BTC",
-            "threshold": 100000
+            "alerts": [
+            {"type": "above", "value": 100000},
+            {"type": "below", "value": 60000}
+            ]
         },
         {
             "id": "ethereum",
             "symbol": "ETH",
-            "threshold": 5000
+            "alerts": [
+            {"type": "above", "value": 3000},
+            {"type": "below", "value":2000}
+            ]
         },
         {
             "id": "celestia",
             "symbol": "TIA",
-            "threshold": 20
+            "alerts": [
+            {"type": "above", "value": 1},
+            {"type": "below", "value": 0.2}
+            ]
         }
     ],
 
