@@ -6,7 +6,7 @@ class CoinConfig:
     def __init__(self, data: dict):
         self.id: str = data["id"]
         self.symbol: str = data["symbol"]
-        self.threshold: Optional[float] = data.get("threshold")
+        self.alerts = data.get("alerts", [])
 
 
 class APIConfig:
