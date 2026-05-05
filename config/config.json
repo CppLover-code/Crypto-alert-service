@@ -49,5 +49,11 @@
     "logging": {
         "level": "INFO",
         "file_path": "logs/app.log"
+    },
+    "notifications": {
+        "telegram": {
+        "enabled": true,
+        "bot_token": "8729578727:AAEVpMQa-_TcXBzsLYe3GrpFNkY_zIpWpIU",
+        "chat_id": "801309710"
     }
 }
