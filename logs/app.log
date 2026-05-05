@@ -5,3 +5,11 @@
 2026-05-05 10:17:22,518 | INFO | Fetching prices...
 2026-05-05 10:17:22,812 | INFO | Prices fetched: {'bitcoin': 80913, 'ethereum': 2376.61, 'celestia': 0.362963, 'litecoin': 55.21}
 2026-05-05 10:17:22,822 | INFO | Data saved successfully
+2026-05-05 10:44:40,216 | INFO | Fetching prices...
+2026-05-05 10:44:40,515 | INFO | Prices fetched: {'bitcoin': 80833, 'ethereum': 2373.65, 'celestia': 0.362792, 'litecoin': 55.07}
+2026-05-05 10:44:40,516 | WARNING | ALERT: BTC: price 80833 >= 80816
+2026-05-05 10:44:40,847 | INFO | Data saved successfully
+2026-05-05 10:45:26,626 | INFO | Fetching prices...
+2026-05-05 10:45:26,680 | INFO | Prices fetched: {'bitcoin': 80833, 'ethereum': 2373.65, 'celestia': 0.362792, 'litecoin': 55.07}
+2026-05-05 10:45:26,681 | WARNING | ALERT: BTC: price 80833 >= 80816
+2026-05-05 10:45:26,968 | INFO | Data saved successfully

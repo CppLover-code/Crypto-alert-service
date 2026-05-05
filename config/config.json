@@ -12,7 +12,7 @@
             "id": "bitcoin",
             "symbol": "BTC",
             "alerts": [
-            {"type": "above", "value": 100000},
+            {"type": "above", "value": 81000},
             {"type": "below", "value": 60000}
             ]
         },
@@ -55,5 +55,6 @@
         "enabled": true,
         "bot_token": "8729578727:AAEVpMQa-_TcXBzsLYe3GrpFNkY_zIpWpIU",
         "chat_id": "801309710"
+        }
     }
 }
