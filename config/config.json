@@ -12,7 +12,7 @@
             "id": "bitcoin",
             "symbol": "BTC",
             "alerts": [
-            {"type": "above", "value": 81000},
+            {"type": "above", "value": 80922},
             {"type": "below", "value": 60000}
             ]
         },
@@ -52,9 +52,13 @@
     },
     "notifications": {
         "telegram": {
-        "enabled": true,
-        "bot_token": "8729578727:AAEVpMQa-_TcXBzsLYe3GrpFNkY_zIpWpIU",
-        "chat_id": "801309710"
+            "enabled": true
+        },
+        "email": {
+            "enabled": true,
+            "smtp_server": "smtp.gmail.com",
+            "smtp_port": 587,
+            "receiver_email": "annaboiko377@gmail.com"
         }
     },
     "alerts": {

@@ -1,12 +1,27 @@
 import json
 from pathlib import Path
 from typing import List, Optional
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+class EmailConfig:
+    def __init__(self, data: dict):
+        self.enabled: bool = data.get("enabled", False)
+        self.smtp_server: str = data["smtp_server"]
+        self.smtp_port: int = data["smtp_port"]
+        self.sender_email: str = os.getenv("EMAIL_USER")
+        self.app_password: str = os.getenv("EMAIL_PASSWORD")
+
+        self.receiver_email: str = data["receiver_email"]
 
 class TelegramConfig:
     def __init__(self, data: dict):
         self.enabled: bool = data.get("enabled", False)
-        self.bot_token: str = data["bot_token"]
-        self.chat_id: str = data["chat_id"]
+
+        self.bot_token: str = os.getenv("TELEGRAM_TOKEN")
+        self.chat_id: str = os.getenv("TELEGRAM_CHAT_ID")
 
 class CoinConfig:
     def __init__(self, data: dict):
@@ -44,6 +59,7 @@ class AppConfig:
         self.logging = LoggingConfig(data["logging"])
         notifications = data.get("notifications", {})
         self.telegram = TelegramConfig(notifications.get("telegram", {}))
+        self.email = EmailConfig(notifications.get("email", {}))
         self.alerts = AlertsConfig(data.get("alerts", {}))
 
 

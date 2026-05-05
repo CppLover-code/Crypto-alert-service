@@ -66,5 +66,23 @@
             "celestia": 0.362984,
             "litecoin": 55.15
         }
+    },
+    {
+        "timestamp": "2026-05-05T07:48:20.245086",
+        "prices": {
+            "bitcoin": 80927,
+            "ethereum": 2381.41,
+            "celestia": 0.368647,
+            "litecoin": 55.33
+        }
+    },
+    {
+        "timestamp": "2026-05-05T07:48:59.782002",
+        "prices": {
+            "bitcoin": 80927,
+            "ethereum": 2381.41,
+            "celestia": 0.368647,
+            "litecoin": 55.33
+        }
     }
 ]

@@ -16,3 +16,12 @@
 2026-05-05 11:11:35,585 | INFO | Fetching prices...
 2026-05-05 11:11:35,842 | INFO | Prices fetched: {'bitcoin': 80908, 'ethereum': 2376.82, 'celestia': 0.362984, 'litecoin': 55.15}
 2026-05-05 11:11:35,851 | INFO | Data saved successfully
+2026-05-05 11:48:19,926 | INFO | Fetching prices...
+2026-05-05 11:48:20,245 | INFO | Prices fetched: {'bitcoin': 80927, 'ethereum': 2381.41, 'celestia': 0.368647, 'litecoin': 55.33}
+2026-05-05 11:48:20,253 | INFO | Data saved successfully
+2026-05-05 11:48:59,663 | INFO | Fetching prices...
+2026-05-05 11:48:59,782 | INFO | Prices fetched: {'bitcoin': 80927, 'ethereum': 2381.41, 'celestia': 0.368647, 'litecoin': 55.33}
+2026-05-05 11:48:59,782 | WARNING | 🚨 ₿ BTC price ABOVE 80922
+
+Current price BTC: 80927 USD
+2026-05-05 11:49:04,213 | INFO | Data saved successfully
