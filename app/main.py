@@ -6,11 +6,14 @@ from app.services.price_service import PriceService
 from app.utils.logger import setup_logger
 from app.services.alert_service import AlertService
 from app.services.notifier import TelegramNotifier
+from app.services.notifier import EmailNotifier
 
 
 async def main():
     config = load_config()
     alert_service = AlertService(config)
+
+    email_notifier = EmailNotifier(config.email)
 
     telegram = TelegramNotifier(
     token=config.telegram.bot_token,
@@ -46,10 +49,18 @@ async def main():
 
         if alerts:
             for alert in alerts:
-                logger.warning(f"ALERT: {alert}")
+                logger.warning(alert)
 
+                # Telegram
                 if config.telegram.enabled:
-                    await telegram.send_message(f"🚨 {alert}")
+                    await telegram.send_message(alert)
+
+                # Email
+                if config.email.enabled:
+                    email_notifier.send_email(
+                        subject="🚨 Crypto Alert",
+                        body=alert
+                    )
 
         storage.save(data)
 
