@@ -29,16 +29,17 @@ async def main():
     await client.start()
 
     try:
-        alerts = alert_service.check_alerts(data["prices"])
-
-        if alerts:
-            logger.warning(f"ALERT! Threshold exceeded: {alerts}")
-            
+        
         logger.info("Fetching prices...")
 
         data = await service.fetch_prices()
 
         logger.info(f"Prices fetched: {data['prices']}")
+
+        alerts = alert_service.check_alerts(data["prices"])
+
+        if alerts:
+            logger.warning(f"ALERT! Threshold exceeded: {alerts}")
 
         storage.save(data)
 
