@@ -2,6 +2,12 @@ import json
 from pathlib import Path
 from typing import List, Optional
 
+class TelegramConfig:
+    def __init__(self, data: dict):
+        self.enabled: bool = data.get("enabled", False)
+        self.bot_token: str = data["bot_token"]
+        self.chat_id: str = data["chat_id"]
+
 class CoinConfig:
     def __init__(self, data: dict):
         self.id: str = data["id"]
@@ -33,6 +39,8 @@ class AppConfig:
         self.coins: List[CoinConfig] = [CoinConfig(c) for c in data["coins"]]
         self.storage = StorageConfig(data["storage"])
         self.logging = LoggingConfig(data["logging"])
+        notifications = data.get("notifications", {})
+        self.telegram = TelegramConfig(notifications.get("telegram", {}))
 
 
 def load_config(path: str = "config/config.json") -> AppConfig:

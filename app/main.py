@@ -5,11 +5,17 @@ from app.storage.file_storage import FileStorage
 from app.services.price_service import PriceService
 from app.utils.logger import setup_logger
 from app.services.alert_service import AlertService
+from app.services.notifier import TelegramNotifier
 
 
 async def main():
     config = load_config()
     alert_service = AlertService(config)
+
+    telegram = TelegramNotifier(
+    token=config.telegram.bot_token,
+    chat_id=config.telegram.chat_id
+)
 
     # создаём логгер
     logger = setup_logger(
@@ -39,7 +45,11 @@ async def main():
         alerts = alert_service.check_alerts(data["prices"])
 
         if alerts:
-            logger.warning(f"ALERT! Threshold exceeded: {alerts}")
+            for alert in alerts:
+                logger.warning(f"ALERT: {alert}")
+
+                if config.telegram.enabled:
+                    await telegram.send_message(f"🚨 {alert}")
 
         storage.save(data)
 
