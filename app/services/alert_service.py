@@ -1,9 +1,26 @@
-from typing import Dict, Optional, List
-from app.config import AppConfig
+import json
+from pathlib import Path
+
 
 class AlertService:
-    def __init__(self, config: AppConfig):
+    def __init__(self, config):
         self.config = config
+        self.state_file = Path(config.alerts.state_file)
+        self.triggered_alerts = self._load_state()
+
+    def _load_state(self):
+        if not self.state_file.exists():
+            return set()
+
+        try:
+            with open(self.state_file, "r", encoding="utf-8") as f:
+                return set(json.load(f))
+        except:
+            return set()
+
+    def _save_state(self):
+        with open(self.state_file, "w", encoding="utf-8") as f:
+            json.dump(list(self.triggered_alerts), f, indent=4)
 
     def check_alerts(self, prices):
         triggered = []
@@ -18,26 +35,39 @@ class AlertService:
                 alert_type = alert.get("type")
                 value = alert.get("value")
 
-                # значки крипты
+                alert_key = f"{coin.id}_{alert_type}_{value}"
+
                 icon = self._get_icon(coin.symbol)
 
+                condition_met = False
+
                 if alert_type == "above" and price >= value:
-                    message = (
-                        f"{icon} {coin.symbol} price ABOVE {value}\n\n"
-                        f"Current price {coin.symbol}: {price} USD"
-                    )
-                    triggered.append(message)
+                    condition_met = True
 
                 elif alert_type == "below" and price <= value:
-                    message = (
-                        f"{icon} {coin.symbol} price BELOW {value}\n\n"
-                        f"Current price {coin.symbol}: {price} USD"
-                    )
-                    triggered.append(message)
+                    condition_met = True
+
+                # если условие выполнено
+                if condition_met:
+                    if alert_key not in self.triggered_alerts:
+                        message = (
+                            f"🚨 {icon} {coin.symbol} price {alert_type.upper()} {value}\n\n"
+                            f"Current price {coin.symbol}: {price} USD"
+                        )
+                        triggered.append(message)
+                        self.triggered_alerts.add(alert_key)
+
+                else:
+                    # сброс состояния если условие перестало выполняться
+                    if alert_key in self.triggered_alerts:
+                        self.triggered_alerts.remove(alert_key)
+
+        # 🔥 сохраняем состояние
+        self._save_state()
 
         return triggered
-    
-    def _get_icon(self, symbol: str) -> str:
+
+    def _get_icon(self, symbol):
         icons = {
             "BTC": "₿",
             "ETH": "Ξ",

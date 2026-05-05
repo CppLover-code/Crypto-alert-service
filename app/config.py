@@ -14,6 +14,9 @@ class CoinConfig:
         self.symbol: str = data["symbol"]
         self.alerts = data.get("alerts", [])
 
+class AlertsConfig:
+    def __init__(self, data: dict):
+        self.state_file: str = data.get("state_file", "data/alerts_state.json")
 
 class APIConfig:
     def __init__(self, data: dict):
@@ -41,6 +44,7 @@ class AppConfig:
         self.logging = LoggingConfig(data["logging"])
         notifications = data.get("notifications", {})
         self.telegram = TelegramConfig(notifications.get("telegram", {}))
+        self.alerts = AlertsConfig(data.get("alerts", {}))
 
 
 def load_config(path: str = "config/config.json") -> AppConfig:

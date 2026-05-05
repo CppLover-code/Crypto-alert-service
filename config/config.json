@@ -56,5 +56,8 @@
         "bot_token": "8729578727:AAEVpMQa-_TcXBzsLYe3GrpFNkY_zIpWpIU",
         "chat_id": "801309710"
         }
+    },
+    "alerts": {
+        "state_file": "data/alerts_state.json"
     }
 }
