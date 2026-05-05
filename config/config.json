@@ -31,6 +31,14 @@
             {"type": "above", "value": 1},
             {"type": "below", "value": 0.2}
             ]
+        },
+        {
+            "id": "litecoin",
+            "symbol": "LTC",
+            "alerts": [
+            {"type": "above", "value": 70},
+            {"type": "below", "value": 50}
+            ]
         }
     ],
 
