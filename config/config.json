@@ -12,7 +12,7 @@
             "id": "bitcoin",
             "symbol": "BTC",
             "alerts": [
-            {"type": "above", "value": 80909},
+            {"type": "above", "value": 81449},
             {"type": "below", "value": 60000}
             ]
         },
@@ -20,7 +20,7 @@
             "id": "ethereum",
             "symbol": "ETH",
             "alerts": [
-            {"type": "above", "value": 3000},
+            {"type": "above", "value": 2371},
             {"type": "below", "value":2000}
             ]
         },
@@ -36,7 +36,7 @@
             "id": "litecoin",
             "symbol": "LTC",
             "alerts": [
-            {"type": "above", "value": 70},
+            {"type": "above", "value": 57},
             {"type": "below", "value": 50}
             ]
         }
