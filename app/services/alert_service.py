@@ -62,7 +62,7 @@ class AlertService:
                     if alert_key in self.triggered_alerts:
                         self.triggered_alerts.remove(alert_key)
 
-        # 🔥 сохраняем состояние
+        # сохраняем состояние
         self._save_state()
 
         return triggered
