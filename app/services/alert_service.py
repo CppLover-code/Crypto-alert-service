@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-
+from decimal import Decimal
 
 class AlertService:
     def __init__(self, config):
@@ -33,7 +33,7 @@ class AlertService:
 
             for alert in coin.alerts:
                 alert_type = alert.get("type")
-                value = alert.get("value")
+                value = Decimal(str(alert.get("value")))
 
                 alert_key = f"{coin.id}_{alert_type}_{value}"
 
