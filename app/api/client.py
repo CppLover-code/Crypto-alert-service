@@ -1,6 +1,7 @@
 import aiohttp
 import asyncio
 from typing import List, Dict, Optional
+from decimal import Decimal
 
 
 class CoinGeckoClient:
@@ -36,7 +37,8 @@ class CoinGeckoClient:
 
         params = {
             "ids": ",".join(coins),
-            "vs_currencies": "usd"
+            "vs_currencies": "usd",
+            "precision": "full"
         }
 
         for attempt in range(1, self.max_retries + 1):
@@ -52,7 +54,7 @@ class CoinGeckoClient:
 
                     for coin in coins:
                         if coin in data and "usd" in data[coin]:
-                            result[coin] = data[coin]["usd"]
+                            result[coin] = Decimal(str(data[coin]["usd"]))
                         else:
                             result[coin] = None
 

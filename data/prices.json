@@ -120,5 +120,86 @@
             "celestia": 0.370975,
             "litecoin": 56.82
         }
+    },
+    {
+        "timestamp": "2026-05-06T06:50:39.355143",
+        "prices": {
+            "bitcoin": 81477,
+            "ethereum": 2369.85,
+            "celestia": 0.371998,
+            "litecoin": 56.92
+        }
+    },
+    {
+        "timestamp": "2026-05-06T06:51:39.638465",
+        "prices": {
+            "bitcoin": 81479,
+            "ethereum": 2369.5,
+            "celestia": 0.371999,
+            "litecoin": 56.91
+        }
+    },
+    {
+        "timestamp": "2026-05-06T06:52:39.920973",
+        "prices": {
+            "bitcoin": 81468,
+            "ethereum": 2369.02,
+            "celestia": 0.37181,
+            "litecoin": 56.9
+        }
+    },
+    {
+        "timestamp": "2026-05-06T06:53:40.171047",
+        "prices": {
+            "bitcoin": 81457,
+            "ethereum": 2368.78,
+            "celestia": 0.371741,
+            "litecoin": 56.9
+        }
+    },
+    {
+        "timestamp": "2026-05-06T06:54:40.475082",
+        "prices": {
+            "bitcoin": 81457,
+            "ethereum": 2368.61,
+            "celestia": 0.371615,
+            "litecoin": 56.91
+        }
+    },
+    {
+        "timestamp": "2026-05-06T06:55:40.728743",
+        "prices": {
+            "bitcoin": 81462,
+            "ethereum": 2368.92,
+            "celestia": 0.371749,
+            "litecoin": 56.92
+        }
+    },
+    {
+        "timestamp": "2026-05-06T06:57:50.062355",
+        "prices": {
+            "bitcoin": 81455.0,
+            "ethereum": 2368.39,
+            "celestia": 0.371671,
+            "litecoin": 56.92
+        }
+    },
+    {
+        "timestamp": "2026-05-06T06:58:50.360868",
+        "prices": {
+            "bitcoin": 81466.0,
+            "ethereum": 2368.8,
+            "celestia": 0.371641,
+            "litecoin": 56.91
+        }
+    },
+    {
+        "timestamp": "2026-05-06T06:59:50.609563",
+        "prices": {
+            "bitcoin": 81473.0,
+            "ethereum": 2369.94,
+            "celestia": 0.371612,
+            "litecoin": 56.91
+        }
     }
 ]

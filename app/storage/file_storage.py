@@ -27,4 +27,4 @@ class FileStorage:
         
     def _write(self, data: List[Dict[str,Any]]) -> None:
         with open(self.file_path, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=4)
+            json.dump(data, f, indent=4, default=str)
