@@ -12,7 +12,7 @@
             "id": "bitcoin",
             "symbol": "BTC",
             "alerts": [
-            {"type": "above", "value": 80922},
+            {"type": "above", "value": 80909},
             {"type": "below", "value": 60000}
             ]
         },

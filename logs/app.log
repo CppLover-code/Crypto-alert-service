@@ -25,3 +25,9 @@
 
 Current price BTC: 80927 USD
 2026-05-05 11:49:04,213 | INFO | Data saved successfully
+2026-05-05 11:54:04,837 | INFO | Fetching prices...
+2026-05-05 11:54:05,169 | INFO | Prices fetched: {'bitcoin': 80911, 'ethereum': 2382.59, 'celestia': 0.369188, 'litecoin': 55.29}
+2026-05-05 11:54:05,170 | WARNING | 🚨 ₿ BTC price ABOVE 80909
+
+Current price BTC: 80911 USD
+2026-05-05 11:54:11,517 | INFO | Data saved successfully
