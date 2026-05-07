@@ -72,7 +72,7 @@ async def main():
                         )
                 
                 logger.info(
-                    f"Sleeping for {config.interval_seconds} seconds..."
+                    f"Sleeping for {current_interval} seconds..."
                 )
                 await asyncio.sleep(current_interval)
             
@@ -89,13 +89,13 @@ async def main():
 
                 await asyncio.sleep(current_interval)
 
-    except KeyboardInterrupt:
-            logger.info("Service stopped by user")
+    except asyncio.CancelledError:
+            logger.info("Application shutdown requested")
 
     finally:
             await client.close()
             await telegram.close()
-            logger.info("HTTP client closed")
+            logger.info("Application stopped")
 
 
 if __name__ == "__main__":
