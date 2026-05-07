@@ -1,4 +1,5 @@
 import aiohttp
+import asyncio
 import smtplib
 from email.mime.text import MIMEText
 from typing import Optional
@@ -49,18 +50,33 @@ class TelegramNotifier:
 class EmailNotifier:
     def __init__(self, config):
         self.config = config
+    
+    # SMTP goes into a separate thread
+    async def send_email(self, subject: str, body: str):
+        await asyncio.to_thread(
+            self._send_email_sync,
+            subject,
+            body
+        )
 
-    def send_email(self, subject: str, body: str):
+    def _send_email_sync(self, subject: str, body: str):
+
         msg = MIMEText(body)
+
         msg["Subject"] = subject
         msg["From"] = self.config.sender_email
         msg["To"] = self.config.receiver_email
 
-        try:
-            with smtplib.SMTP(self.config.smtp_server, self.config.smtp_port) as server:
-                server.starttls()
-                server.login(self.config.sender_email, self.config.app_password)
-                server.send_message(msg)
+        with smtplib.SMTP(
+            self.config.smtp_server,
+            self.config.smtp_port
+        ) as server:
 
-        except Exception as e:
-            print(f"Email error: {e}")
+            server.starttls()
+
+            server.login(
+                self.config.sender_email,
+                self.config.app_password
+            )
+
+            server.send_message(msg)
