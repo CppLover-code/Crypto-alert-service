@@ -12,10 +12,10 @@ class FileStorage:
             self._write([])
 
     def save(self, data: Dict[str, Any]) -> None:
-        # добавляет новую запись в файл
-
+        # adding new entry, save only last 100 entries
         current_data = self._read()
         current_data.append(data)
+        current_data = current_data[-100:]
         self._write(current_data)
 
     def _read(self) -> List[Dict[str, Any]]:
