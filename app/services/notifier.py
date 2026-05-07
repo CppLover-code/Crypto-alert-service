@@ -1,6 +1,7 @@
 import aiohttp
 import smtplib
 from email.mime.text import MIMEText
+from typing import Optional
 
 
 class TelegramNotifier:
@@ -8,18 +9,42 @@ class TelegramNotifier:
         self.token = token
         self.chat_id = chat_id
 
+        self.base_url = f"https://api.telegram.org/bot{token}"
+
+        self.session: Optional[aiohttp.ClientSession] = None
+
+    async def start(self):
+        """Initialize HTTP session"""
+        self.session = aiohttp.ClientSession()
+
+    async def close(self):
+        """Close HTTP session"""
+        if self.session:
+            await self.session.close()
+
     async def send_message(self, text: str):
-        url = f"https://api.telegram.org/bot{self.token}/sendMessage"
+
+        if not self.session:
+            raise RuntimeError(
+                "Telegram session is not initialized. Call start()."
+            )
+
+        url = f"{self.base_url}/sendMessage"
 
         payload = {
             "chat_id": self.chat_id,
             "text": text
         }
 
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=payload) as response:
-                if response.status != 200:
-                    raise RuntimeError("Failed to send Telegram message")
+        async with self.session.post(url, json=payload) as response:
+
+            if response.status != 200:
+                response_text = await response.text()
+
+                raise RuntimeError(
+                    f"Failed to send Telegram message: "
+                    f"{response.status} - {response_text}"
+                )
                 
 class EmailNotifier:
     def __init__(self, config):
