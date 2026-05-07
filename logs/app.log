@@ -1,0 +1,13 @@
+2026-05-07 11:49:00,070 | INFO | Crypto Alert Service started
+2026-05-07 11:49:00,070 | INFO | Fetching prices...
+2026-05-07 11:49:00,172 | INFO | Prices fetched: {'bitcoin': Decimal('81578.79572181006'), 'ethereum': Decimal('2345.549102913975'), 'celestia': Decimal('0.3864921861143479'), 'litecoin': Decimal('57.09454332390012')}
+2026-05-07 11:49:00,175 | WARNING | 🚨 ₿ BTC price ABOVE 80977.00
+
+Current price BTC: 81578.80 USD
+2026-05-07 11:49:04,699 | WARNING | 🚨 Ξ ETH price ABOVE 2322.00
+
+Current price ETH: 2345.55 USD
+2026-05-07 11:49:07,663 | WARNING | 🚨 Ł LTC price ABOVE 57.00
+
+Current price LTC: 57.09 USD
+2026-05-07 11:49:10,621 | INFO | Sleeping for 60 seconds...
