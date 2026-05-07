@@ -140,3 +140,11 @@ Current price ETH: 2371.24 USD
 2026-05-07 10:13:57,587 | INFO | Prices fetched: {'bitcoin': Decimal('80905.69609510717'), 'ethereum': Decimal('2323.4809214095244'), 'celestia': Decimal('0.38416545760559817'), 'litecoin': Decimal('56.57150948427923')}
 2026-05-07 10:13:57,598 | INFO | Sleeping for 60 seconds...
 2026-05-07 10:14:57,551 | INFO | HTTP client closed
+2026-05-07 10:26:15,273 | INFO | Crypto Alert Service started
+2026-05-07 10:26:15,273 | INFO | Fetching prices...
+2026-05-07 10:26:15,561 | INFO | Prices fetched: {'bitcoin': Decimal('80961.00520427593'), 'ethereum': Decimal('2320.401841033589'), 'celestia': Decimal('0.3827922389967423'), 'litecoin': Decimal('56.546665125054034')}
+2026-05-07 10:26:15,570 | WARNING | 🚨 ₿ BTC price BELOW 80973.00
+
+Current price BTC: 80961.01 USD
+2026-05-07 10:26:20,446 | INFO | Sleeping for 60 seconds...
+2026-05-07 10:26:58,761 | INFO | HTTP client closed
