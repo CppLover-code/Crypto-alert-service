@@ -18,7 +18,8 @@ def setup_logger(log_file: str, level: str = "INFO") -> logging.Logger:
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(formatter)
 
-    logger.addHandler(file_handler)
-    logger.addHandler(console_handler)
+    if not logger.handlers:
+        logger.addHandler(file_handler)
+        logger.addHandler(console_handler)
 
     return logger
