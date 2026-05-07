@@ -26,7 +26,7 @@ class CoinGeckoClient:
         if self.session:
             await self.session.close()
 
-    async def get_prices(self, coins: List[str]) -> Dict[str, float]:
+    async def get_prices(self, coins: List[str]) -> Dict[str, Decimal]:
         if not coins:
             return {}
 
