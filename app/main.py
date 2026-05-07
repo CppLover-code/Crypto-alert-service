@@ -66,10 +66,10 @@ async def main():
 
                         #Email
                         if config.email.enabled:
-                            email_notifier.send_email(
-                                subject="🚨 Crypto Alert",
-                                body=alert
-                            )
+                            await email_notifier.send_email(
+                            subject="🚨 Crypto Alert",
+                            body=alert
+                        )
                 
                 logger.info(
                     f"Sleeping for {config.interval_seconds} seconds..."
