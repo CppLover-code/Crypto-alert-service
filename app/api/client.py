@@ -17,12 +17,12 @@ class CoinGeckoClient:
         self.session: Optional[aiohttp.ClientSession] = None
 
     async def start(self):
-        """Инициализация HTTP-сессии"""
+        # Инициализация HTTP-сессии
         timeout = aiohttp.ClientTimeout(total=self.timeout)
         self.session = aiohttp.ClientSession(timeout=timeout)
 
     async def close(self):
-        """Закрытие HTTP-сессии"""
+        # Закрытие HTTP-сессии
         if self.session:
             await self.session.close()
 
