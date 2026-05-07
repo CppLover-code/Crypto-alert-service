@@ -1,6 +1,5 @@
-from datetime import datetime
-from typing import Dict, Any
-
+from datetime import datetime, UTC
+from typing import Dict
 from app.api.client import CoinGeckoClient
 from app.config import AppConfig
 
@@ -10,11 +9,7 @@ class PriceService:
         self.client = client
         self.config = config
 
-    async def fetch_prices(self) -> Dict[str, Any]:
-        """
-        Получает цены и возвращает структурированный результат
-        """
-
+    async def fetch_prices(self) -> Dict[str, object]:
         # берём монеты из config
         coins = [coin.id for coin in self.config.coins]
 
@@ -23,7 +18,7 @@ class PriceService:
 
         # добавляем timestamp
         result = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now().isoformat(),
             "prices": prices
         }
 

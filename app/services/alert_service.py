@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from decimal import Decimal
+from typing import Dict, List
 
 class AlertService:
     def __init__(self, config):
@@ -22,7 +23,7 @@ class AlertService:
         with open(self.state_file, "w", encoding="utf-8") as f:
             json.dump(list(self.triggered_alerts), f, indent=4)
 
-    def check_alerts(self, prices):
+    def check_alerts(self, prices: Dict[str, Decimal]) -> List[str]:
         triggered = []
 
         for coin in self.config.coins:
