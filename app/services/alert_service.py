@@ -15,7 +15,7 @@ class AlertService:
         try:
             with open(self.state_file, "r", encoding="utf-8") as f:
                 return set(json.load(f))
-        except:
+        except json.JSONDecodeError:
             return set()
 
     def _save_state(self):
