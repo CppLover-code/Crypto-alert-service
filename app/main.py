@@ -21,25 +21,24 @@ async def main():
         timeout=config.api.timeout,
         max_retries=config.api.max_retries
     )
+    await client.start()
 
     service = PriceService(client, config)
     alert_service = AlertService(config)
-
     storage = FileStorage(config.storage.file_path)
 
     telegram = TelegramNotifier(
         token=config.telegram.bot_token,
         chat_id=config.telegram.chat_id
     )
+    await telegram.start()
 
     email_notifier = EmailNotifier(config.email)
-
-    await client.start()
 
     logger.info("Crypto Alert Service started")
 
     current_interval = config.interval_seconds
-    max_interval = 300 # максимум 5 минут
+    max_interval = 300 # 5 mins max
 
     try:
         while True:
@@ -95,6 +94,7 @@ async def main():
 
     finally:
             await client.close()
+            await telegram.close()
             logger.info("HTTP client closed")
 
 
