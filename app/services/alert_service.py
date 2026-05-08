@@ -56,8 +56,10 @@ class AlertService:
                         formatted_value = value.quantize(Decimal("0.01"))
 
                         message = (
+                            "111\n"
                             f"🚨 {icon} {coin.symbol} price {alert_type.upper()} {formatted_value}\n\n"
                             f"Current price {coin.symbol}: {formatted_price} USD"
+                            "\n"
                         )
                         triggered.append(message)
                         self.triggered_alerts.add(alert_key)

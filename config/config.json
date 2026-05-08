@@ -12,24 +12,24 @@
             "id": "bitcoin",
             "symbol": "BTC",
             "alerts": [
-            {"type": "above", "value": 80977},
-            {"type": "below", "value": 80973}
+            {"type": "above", "value": 79690},
+            {"type": "below", "value": 79679}
             ]
         },
         {
             "id": "ethereum",
             "symbol": "ETH",
             "alerts": [
-            {"type": "above", "value": 2322},
-            {"type": "below", "value":2319}
+            {"type": "above", "value": 2285},
+            {"type": "below", "value":2280}
             ]
         },
         {
             "id": "celestia",
             "symbol": "TIA",
             "alerts": [
-            {"type": "above", "value": 1},
-            {"type": "below", "value": 0.2}
+            {"type": "above", "value": 0.42},
+            {"type": "below", "value": 0.38}
             ]
         },
         {
@@ -37,7 +37,7 @@
             "symbol": "LTC",
             "alerts": [
             {"type": "above", "value": 57},
-            {"type": "below", "value": 55}
+            {"type": "below", "value": 56}
             ]
         }
     ],
