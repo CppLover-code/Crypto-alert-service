@@ -1,7 +1,11 @@
 [
-    "ethereum_above_2322",
-    "bitcoin_above_80909",
     "bitcoin_above_79722",
+    "ethereum_above_2322",
+    "ethereum_above_2285",
+    "bitcoin_above_80909",
+    "bitcoin_below_79679",
     "bitcoin_above_80922",
-    "bitcoin_above_80977"
+    "bitcoin_above_80977",
+    "litecoin_below_56",
+    "celestia_below_0.38"
 ]
