@@ -1,3 +1,6 @@
 aiohttp
 python-dotenv
 sqlalchemy
+fastapi
+uvicorn
+jinja2
