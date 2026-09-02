@@ -7,7 +7,11 @@ from app.models import Base
 DB_PATH = Path("data/app.db")
 DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 
-engine = create_engine(f"sqlite:///{DB_PATH}", echo=True)
+engine = create_engine(
+    f"sqlite:///{DB_PATH}",
+    echo=False,
+    connect_args={"check_same_thread": False},
+    )
 SessionLocal = sessionmaker(bind=engine)
 
 def init_db() -> None:
