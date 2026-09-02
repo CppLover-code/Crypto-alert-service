@@ -60,3 +60,40 @@ def list_coins_with_prices(session: Session) -> list[Coin]:
         .order_by(Coin.symbol)
     )
     return list(session.scalars(stmt).all())
+
+def get_coin_by_coingecko_id(session: Session, coingecko_id: str) -> Coin | None:
+    return session.scalar(
+        select(Coin).where(Coin.coingecko_id == coingecko_id)
+    )
+
+
+def ensure_coins(session: Session, coins_from_config) -> None:
+    for item in coins_from_config:
+        existing = get_coin_by_coingecko_id(session, item.id)
+        if existing is None:
+            add_coin(session, item.id, item.symbol)
+
+
+def save_api_prices(session: Session, prices: dict) -> None:
+    for coingecko_id, value in prices.items():
+        if value is None:
+            continue
+        coin = get_coin_by_coingecko_id(session, coingecko_id)
+        if coin is None:
+            continue
+        upsert_price(session, coin.id, value)
+
+def list_users(session: Session) -> list[User]:
+    stmt = select(User).order_by(User.id)
+    return list(session.scalars(stmt).all())
+
+def get_user(session: Session, user_id: int) -> User | None:
+    return session.get(User, user_id)
+
+def deactivate_user(session: Session, user_id: int) -> User | None:
+    user = get_user(session, user_id)
+    if user is None:
+        return None
+    user.active = False
+    return user
+

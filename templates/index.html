@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="60">
     <title>Crypto Alert — цены</title>
 </head>
 <body>
@@ -44,6 +45,42 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <table border="1" cellpadding="8">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Telegram</th>
+                <th>Notify email</th>
+                <th>Notify telegram</th>
+                <th>Active</th>
+                <th>Deactivate</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email or '-' }}</td>
+                <td>{{ user.telegram_chat_id or '-' }}</td>
+                <td>{{ user.notify_email }}</td>
+                <td>{{ user.notify_telegram }}</td>
+                <td>{{ user.active }}</td>
+                <td><form method="post" action="/users/{{ user.id }}/deactivate"></form></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="9">No users yet</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><a href="/users/new">Add user</a></p>
+
 </body>
 </html>
 
