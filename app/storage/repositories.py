@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 
 from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from app.models import Coin, Price, User
 
@@ -51,3 +51,12 @@ def add_user(
     session.add(user)
     session.flush()
     return user
+
+def list_coins_with_prices(session: Session) -> list[Coin]:
+    stmt = (
+        select(Coin)
+        .where(Coin.enabled.is_(True))
+        .options(selectinload(Coin.price))
+        .order_by(Coin.symbol)
+    )
+    return list(session.scalars(stmt).all())

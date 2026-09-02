@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Crypto Alert — цены</title>
+</head>
+<body>
+    <h1>Current prices</h1>
+    <p>Admin monitor. Subscribers do not use this page.</p>
+
+    <table border="1" cellpadding="8">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>CoinGecko id</th>
+                <th>Price (USD)</th>
+                <th>Updated (UTC)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for coin in coins %}
+            <tr>
+                <td>{{ coin.symbol }}</td>
+                <td>{{ coin.coingecko_id }}</td>
+                <td>
+                    {% if coin.price %}
+                        {{ coin.price.value }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+                <td>
+                    {% if coin.price %}
+                        {{ coin.price.updated_at }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">No coins yet</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
