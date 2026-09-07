@@ -9,6 +9,7 @@
     <h1>Current prices</h1>
     <p>Admin monitor. Subscribers do not use this page.</p>
 
+    <h2>Coins</h2>
     <table border="1" cellpadding="8">
         <thead>
             <tr>
@@ -46,6 +47,8 @@
         </tbody>
     </table>
 
+    <h2>Users</h2>
+    <p><a href="/users/new">Add user</a></p>
     <table border="1" cellpadding="8">
         <thead>
             <tr>
@@ -56,7 +59,7 @@
                 <th>Notify email</th>
                 <th>Notify telegram</th>
                 <th>Active</th>
-                <th>Deactivate</th>
+                <th>On/Off</th>
             </tr>
         </thead>
         <tbody>
@@ -69,17 +72,21 @@
                 <td>{{ user.notify_email }}</td>
                 <td>{{ user.notify_telegram }}</td>
                 <td>{{ user.active }}</td>
-                <td><form method="post" action="/users/{{ user.id }}/deactivate"></form></td>
+                <td>
+                    <form method="post" action="/users/{{ user.id }}/toggle-active">
+                        <button type="submit">
+                            {% if user.active %}Deactivate{% else %}Activate{% endif %}
+                        </button>
+                    </form>
+                </td>
             </tr>
             {% else %}
             <tr>
-                <td colspan="9">No users yet</td>
+                <td colspan="8">No users yet</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-
-    <p><a href="/users/new">Add user</a></p>
 
 </body>
 </html>

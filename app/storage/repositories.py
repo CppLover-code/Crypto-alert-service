@@ -97,3 +97,9 @@ def deactivate_user(session: Session, user_id: int) -> User | None:
     user.active = False
     return user
 
+def toggle_user_active(session: Session, user_id: int) -> User | None:
+    user = get_user(session, user_id)
+    if user is None:
+        return None
+    user.active = not user.active
+    return user
