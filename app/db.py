@@ -12,7 +12,7 @@ engine = create_engine(
     echo=False,
     connect_args={"check_same_thread": False},
     )
-SessionLocal = sessionmaker(bind=engine)
+SessionLocal = sessionmaker(bind=engine, expire_on_commit=False)
 
 def init_db() -> None:
     Base.metadata.create_all(engine)

@@ -13,6 +13,19 @@ from app.storage.repositories import ensure_coins, list_active_users, save_api_p
 from app.utils.logger import setup_logger
 
 
+def snapshot_users(users) -> list[dict]:
+    return [
+        {
+            "id": user.id,
+            "email": user.email,
+            "telegram_chat_id": user.telegram_chat_id,
+            "notify_email": bool(user.notify_email),
+            "notify_telegram": bool(user.notify_telegram),
+        }
+        for user in users
+    ]
+
+
 async def notify_users(
     alerts: list[str],
     users,
@@ -21,32 +34,50 @@ async def notify_users(
     email_notifier: EmailNotifier,
     logger: logging.Logger,
 ) -> None:
+    if not users:
+        logger.warning("Alerts fired, but there are no active users")
+        return
+
+    logger.info(
+        f"Sending {len(alerts)} alert(s) to {len(users)} active user(s)"
+    )
+
     for alert in alerts:
         logger.warning(alert)
         for user in users:
+            sent = False
             if (
                 telegram
                 and config.telegram.enabled
-                and user.notify_telegram
-                and user.telegram_chat_id
+                and user["notify_telegram"]
+                and user["telegram_chat_id"]
             ):
                 try:
                     await telegram.send_message(
                         alert,
-                        chat_id=user.telegram_chat_id,
+                        chat_id=user["telegram_chat_id"],
                     )
+                    logger.info(f"Telegram sent to user {user['id']}")
+                    sent = True
                 except Exception as e:
-                    logger.error(f"Telegram failed for user {user.id}: {e}")
+                    logger.error(f"Telegram failed for user {user['id']}: {e}")
 
-            if config.email.enabled and user.notify_email and user.email:
+            if config.email.enabled and user["notify_email"] and user["email"]:
                 try:
                     await email_notifier.send_email(
                         subject="🚨 Crypto Alert",
                         body=alert,
-                        to_email=user.email,
+                        to_email=user["email"],
                     )
+                    logger.info(f"Email sent to user {user['id']}")
+                    sent = True
                 except Exception as e:
-                    logger.error(f"Email failed for user {user.id}: {e}")
+                    logger.error(f"Email failed for user {user['id']}: {e}")
+
+            if not sent:
+                logger.warning(
+                    f"User {user['id']} is active but has no enabled channels"
+                )
 
 
 async def run_worker() -> None:
@@ -105,7 +136,7 @@ async def run_worker() -> None:
                 try:
                     save_api_prices(db_session, data["prices"])
                     db_session.commit()
-                    users = list_active_users(db_session)
+                    users = snapshot_users(list_active_users(db_session))
                 except Exception:
                     db_session.rollback()
                     raise

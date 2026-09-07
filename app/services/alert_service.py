@@ -24,6 +24,9 @@ class AlertService:
             json.dump(list(self.triggered_alerts), f, indent=4)
 
     def check_alerts(self, prices: Dict[str, Decimal]) -> List[str]:
+        # File is the source of truth so emptying alerts_state.json takes effect
+        # without restarting the worker.
+        self.triggered_alerts = self._load_state()
         triggered = []
 
         for coin in self.config.coins:

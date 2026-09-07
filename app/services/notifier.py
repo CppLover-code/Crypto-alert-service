@@ -7,8 +7,8 @@ from typing import Optional
 
 class TelegramNotifier:
     def __init__(self, token: str):
-        self.token = token
-        self.base_url = f"https://api.telegram.org/bot{token}"
+        self.token = (token or "").strip()
+        self.base_url = f"https://api.telegram.org/bot{self.token}"
         self.session: Optional[aiohttp.ClientSession] = None
 
     async def start(self):
@@ -28,16 +28,20 @@ class TelegramNotifier:
 
         url = f"{self.base_url}/sendMessage"
         payload = {
-            "chat_id": chat_id,
+            "chat_id": int(chat_id) if str(chat_id).isdigit() else chat_id,
             "text": text
         }
 
         async with self.session.post(url, json=payload) as response:
+            body = await response.text()
             if response.status != 200:
-                response_text = await response.text()
                 raise RuntimeError(
                     f"Failed to send Telegram message: "
-                    f"{response.status} - {response_text}"
+                    f"{response.status} - {body}"
+                )
+            if '"ok":false' in body.replace(" ", "").lower():
+                raise RuntimeError(
+                    f"Telegram API rejected the message: {body}"
                 )
 
 
