@@ -103,3 +103,22 @@ def toggle_user_active(session: Session, user_id: int) -> User | None:
         return None
     user.active = not user.active
     return user
+
+def toggle_user_notify_email(session: Session, user_id: int) -> User | None:
+    user = get_user(session, user_id)
+    if user is None:
+        return None
+    user.notify_email = not user.notify_email
+    return user
+
+
+def toggle_user_notify_telegram(session: Session, user_id: int) -> User | None:
+    user = get_user(session, user_id)
+    if user is None:
+        return None
+    user.notify_telegram = not user.notify_telegram
+    return user
+
+def list_active_users(session: Session) -> list[User]:
+    stmt = select(User).where(User.active.is_(True))
+    return list(session.scalars(stmt).all())

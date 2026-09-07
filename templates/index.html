@@ -69,8 +69,20 @@
                 <td>{{ user.name }}</td>
                 <td>{{ user.email or '-' }}</td>
                 <td>{{ user.telegram_chat_id or '-' }}</td>
-                <td>{{ user.notify_email }}</td>
-                <td>{{ user.notify_telegram }}</td>
+                <td>
+                    <form method="post" action="/users/{{ user.id }}/toggle-email">
+                        <button type="submit">
+                            {% if user.notify_email %}Email on{% else %}Email off{% endif %}
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post" action="/users/{{ user.id }}/toggle-telegram">
+                        <button type="submit">
+                            {% if user.notify_telegram %}Telegram on{% else %}Telegram off{% endif %}
+                        </button>
+                    </form>
+                </td>
                 <td>{{ user.active }}</td>
                 <td>
                     <form method="post" action="/users/{{ user.id }}/toggle-active">

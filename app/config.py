@@ -14,14 +14,11 @@ class EmailConfig:
         self.sender_email: str = os.getenv("EMAIL_USER")
         self.app_password: str = os.getenv("EMAIL_PASSWORD")
 
-        self.receiver_email: str = data["receiver_email"]
-
 class TelegramConfig:
     def __init__(self, data: dict):
         self.enabled: bool = data.get("enabled", False)
 
         self.bot_token: str = os.getenv("TELEGRAM_TOKEN")
-        self.chat_id: str = os.getenv("TELEGRAM_CHAT_ID")
 
 class CoinConfig:
     def __init__(self, data: dict):
@@ -73,3 +70,15 @@ def load_config(path: str = "config/config.json") -> AppConfig:
         data = json.load(f)
 
     return AppConfig(data)
+
+def require_secrets(config: AppConfig) -> None:
+    if config.telegram.enabled and not config.telegram.bot_token:
+        raise RuntimeError(
+            "TELEGRAM_TOKEN is required when telegram notifications are enabled"
+        )
+    if config.email.enabled and (
+        not config.email.sender_email or not config.email.app_password
+    ):
+        raise RuntimeError(
+            "EMAIL_USER and EMAIL_PASSWORD are required when email notifications are enabled"
+        )

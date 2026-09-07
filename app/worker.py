@@ -1,14 +1,52 @@
 import asyncio
+import logging
+from typing import Optional
 
 from app.api.client import CoinGeckoClient
-from app.config import load_config
+from app.config import load_config, require_secrets
 from app.db import get_session, init_db
 from app.services.price_service import PriceService
 from app.services.alert_service import AlertService
 from app.services.notifier import TelegramNotifier, EmailNotifier
 from app.storage.file_storage import FileStorage
-from app.storage.repositories import ensure_coins, save_api_prices
+from app.storage.repositories import ensure_coins, list_active_users, save_api_prices
 from app.utils.logger import setup_logger
+
+
+async def notify_users(
+    alerts: list[str],
+    users,
+    config,
+    telegram: Optional[TelegramNotifier],
+    email_notifier: EmailNotifier,
+    logger: logging.Logger,
+) -> None:
+    for alert in alerts:
+        logger.warning(alert)
+        for user in users:
+            if (
+                telegram
+                and config.telegram.enabled
+                and user.notify_telegram
+                and user.telegram_chat_id
+            ):
+                try:
+                    await telegram.send_message(
+                        alert,
+                        chat_id=user.telegram_chat_id,
+                    )
+                except Exception as e:
+                    logger.error(f"Telegram failed for user {user.id}: {e}")
+
+            if config.email.enabled and user.notify_email and user.email:
+                try:
+                    await email_notifier.send_email(
+                        subject="🚨 Crypto Alert",
+                        body=alert,
+                        to_email=user.email,
+                    )
+                except Exception as e:
+                    logger.error(f"Email failed for user {user.id}: {e}")
 
 
 async def run_worker() -> None:
@@ -17,6 +55,7 @@ async def run_worker() -> None:
         log_file=config.logging.file_path,
         level=config.logging.level,
     )
+    require_secrets(config)
 
     init_db()
     session = get_session()
@@ -40,11 +79,11 @@ async def run_worker() -> None:
     alert_service = AlertService(config)
     storage = FileStorage(config.storage.file_path)
 
-    telegram = TelegramNotifier(
-        token=config.telegram.bot_token,
-        chat_id=config.telegram.chat_id,
-    )
-    await telegram.start()
+    telegram = None
+    if config.telegram.enabled:
+        telegram = TelegramNotifier(token=config.telegram.bot_token)
+        await telegram.start()
+
     email_notifier = EmailNotifier(config.email)
 
     logger.info("Crypto Alert Service started")
@@ -66,6 +105,7 @@ async def run_worker() -> None:
                 try:
                     save_api_prices(db_session, data["prices"])
                     db_session.commit()
+                    users = list_active_users(db_session)
                 except Exception:
                     db_session.rollback()
                     raise
@@ -74,15 +114,14 @@ async def run_worker() -> None:
 
                 alerts = alert_service.check_alerts(data["prices"])
                 if alerts:
-                    for alert in alerts:
-                        logger.warning(alert)
-                        if config.telegram.enabled:
-                            await telegram.send_message(alert)
-                        if config.email.enabled:
-                            await email_notifier.send_email(
-                                subject="🚨 Crypto Alert",
-                                body=alert,
-                            )
+                    await notify_users(
+                        alerts,
+                        users,
+                        config,
+                        telegram,
+                        email_notifier,
+                        logger,
+                    )
 
                 logger.info(f"Sleeping for {current_interval} seconds...")
                 await asyncio.sleep(current_interval)
@@ -101,5 +140,6 @@ async def run_worker() -> None:
         raise
     finally:
         await client.close()
-        await telegram.close()
+        if telegram:
+            await telegram.close()
         logger.info("Application stopped")

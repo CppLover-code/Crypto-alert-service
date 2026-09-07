@@ -1,51 +1,71 @@
 {
     "interval_seconds": 60,
-
     "api": {
         "base_url": "https://api.coingecko.com/api/v3",
         "timeout": 5,
         "max_retries": 3
     },
-    
     "coins": [
         {
             "id": "bitcoin",
             "symbol": "BTC",
             "alerts": [
-            {"type": "above", "value": 79690},
-            {"type": "below", "value": 79679}
+                {
+                    "type": "above",
+                    "value": 79690
+                },
+                {
+                    "type": "below",
+                    "value": 79679
+                }
             ]
         },
         {
             "id": "ethereum",
             "symbol": "ETH",
             "alerts": [
-            {"type": "above", "value": 2285},
-            {"type": "below", "value":2280}
+                {
+                    "type": "above",
+                    "value": 2285
+                },
+                {
+                    "type": "below",
+                    "value": 2280
+                }
             ]
         },
         {
             "id": "celestia",
             "symbol": "TIA",
             "alerts": [
-            {"type": "above", "value": 0.42},
-            {"type": "below", "value": 0.38}
+                {
+                    "type": "above",
+                    "value": 0.42
+                },
+                {
+                    "type": "below",
+                    "value": 0.38
+                }
             ]
         },
         {
             "id": "litecoin",
             "symbol": "LTC",
             "alerts": [
-            {"type": "above", "value": 57},
-            {"type": "below", "value": 56}
+                {
+                    "type": "above",
+                    "value": 57
+                },
+                {
+                    "type": "below",
+                    "value": 56
+                }
             ]
         }
     ],
-
     "storage": {
         "file_path": "data/prices.json"
     },
-
     "logging": {
         "level": "INFO",
         "file_path": "logs/app.log"
@@ -57,8 +77,7 @@
         "email": {
             "enabled": true,
             "smtp_server": "smtp.gmail.com",
-            "smtp_port": 587,
-            "receiver_email": "REDACTED"
+            "smtp_port": 587
         }
     },
     "alerts": {
