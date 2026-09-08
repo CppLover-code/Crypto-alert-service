@@ -1,127 +1,120 @@
-🇬🇧 English
-
 # Crypto Alert Service
 
-Crypto Alert Service is an asynchronous cryptocurrency monitoring application built with Python.
+Async Python service that polls [CoinGecko](https://www.coingecko.com/) for crypto prices and sends alerts over Telegram and email when configured thresholds are crossed.
 
-The service tracks cryptocurrency prices using the CoinGecko REST API and sends alerts via Telegram and Email when specified conditions are met.
+An admin page shows live prices and lets you add subscribers. Subscribers do not log in: they only receive messages.
 
-## Features
+---
 
-* Async REST API client (`aiohttp`)
-* Cryptocurrency price monitoring
-* Configurable alerts system
-* Telegram notifications
-* Email notifications (Gmail SMTP)
-* Anti-spam alerts logic
-* Persistent alerts state
-* Logging system
-* JSON storage
-* Docker support
-* Environment variables support (`.env`)
-* Adaptive polling for API rate limits
-* Production-style project architecture
+## Stack
 
-## Supported Cryptocurrencies
+- Python 3.13, asyncio, aiohttp
+- FastAPI + Jinja2 (admin UI)
+- SQLite + SQLAlchemy
+- Telegram Bot API, Gmail SMTP
+- Docker Compose
+- pytest
 
-You can monitor any cryptocurrency supported by CoinGecko API.
+---
 
-Example:
+## How it works
 
-* Bitcoin (BTC)
-* Ethereum (ETH)
-* Litecoin (LTC)
-* Celestia (TIA)
+1. A background worker fetches prices on an interval (`config/config.json`).
+2. Prices are stored in SQLite (`data/app.db`) and shown on `/`.
+3. If a coin crosses an `above` / `below` threshold, the worker notifies **active** users according to their Email / Telegram flags.
+4. Alert state is persisted so the same condition does not spam until the price leaves the range and enters it again.
 
-## Technologies Used
+**Server secrets** (SMTP login, bot token) live in `.env`.  
+**Recipients** (email, Telegram chat id, channel toggles) live in the admin UI / database.
 
-* Python 3.13
-* Asyncio
-* Aiohttp
-* Docker
-* SMTP
-* Telegram Bot API
+`notifications.*.enabled` in `config.json` means “this channel is available on the server”. Per-user checkboxes decide who actually receives a message.
 
-## Project Structure
+---
 
-```text
-app/
-├── api/
-├── services/
-├── storage/
-├── utils/
-├── config.py
-├── main.py
-```
-
-## Installation
-
-### Clone repository
+## Setup
 
 ```bash
 git clone <your_repo_url>
-cd crypto-alert-service
-```
-
-### Create virtual environment
-
-```bash
+cd "Crypto alert service"
 python -m venv .venv
 ```
-
-### Activate virtual environment
 
 Windows:
 
 ```bash
 .venv\Scripts\activate
-```
-
-Linux/macOS:
-
-```bash
-source .venv/bin/activate
-```
-
-### Install dependencies
-
-```bash
 pip install -r requirements.txt
 ```
 
-## Environment Variables
+Linux / macOS:
 
-Create `.env` file in the project root:
+```bash
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+Copy `.env.example` to `.env` in the project root:
 
 ```env
 EMAIL_USER=your_email@gmail.com
-EMAIL_PASSWORD=your_app_password
-
+EMAIL_PASSWORD=your_gmail_app_password
 TELEGRAM_TOKEN=your_telegram_bot_token
-TELEGRAM_CHAT_ID=your_chat_id
 ```
 
-## Run Application
+Gmail needs an [app password](https://support.google.com/accounts/answer/185833), not the normal account password.  
+Telegram: create a bot via [@BotFather](https://t.me/BotFather), then the subscriber must send `/start` to the bot before it can message them. Chat id is entered in the admin form, not in `.env`.
+
+Thresholds and coins: `config/config.json`.
+
+---
+
+## Run locally
+
+From the project root (port 8080 — port 8000 is often blocked on Windows):
+
+```bash
+uvicorn app.web:app --reload --port 8080
+```
+
+Open [http://127.0.0.1:8080](http://127.0.0.1:8080).
+
+This starts both the admin UI and the polling worker. Do not run `python -m app.main` at the same time or you will double-poll the API.
+
+Worker only (no UI):
 
 ```bash
 python -m app.main
 ```
 
+---
+
 ## Run with Docker
 
-### Build image
+Docker Desktop must be running. From the project root:
 
 ```bash
-docker build -t crypto-alert-service .
+docker compose up --build
 ```
 
-### Run container
+Then open [http://127.0.0.1:8080](http://127.0.0.1:8080).
+
+SQLite, logs, and config are mounted from `./data`, `./logs`, and `./config`, so they survive `docker compose down`.
+
+Stop: `Ctrl+C`. Remove the container (data on disk stays): `docker compose down`.
+
+---
+
+## Tests
 
 ```bash
-docker run --env-file .env crypto-alert-service
+pytest -q
 ```
 
-## Alerts Example
+No network, Telegram, or Gmail required.
+
+---
+
+## Alert example
 
 ```text
 🚨 ₿ BTC price ABOVE 100000.00
@@ -129,111 +122,60 @@ docker run --env-file .env crypto-alert-service
 Current price BTC: 81466.37 USD
 ```
 
-## Future Improvements
+---
 
-* Windows background service
-* Installer (.exe)
-* Database support
-* Web dashboard
-* WebSocket real-time updates
-* FastAPI integration
+## Possible next steps
+
+- Subscriber self-service via Telegram commands
+- Per-user alert thresholds
+- Auth on the admin page
+
+---
 
 ## License
 
 MIT License
 
-# ---------------------------------------------------------------
-🇷🇺 Русский
+---
 
-Crypto Alert Service
+# Русский
 
-Crypto Alert Service — асинхронное приложение для мониторинга криптовалют, написанное на Python.
+Сервис на Python, который по таймеру запрашивает цены криптовалют у CoinGecko и шлёт алерты в Telegram и на почту, когда цена пересекает порог из конфига.
 
-Сервис отслеживает цены криптовалют через REST API CoinGecko и отправляет уведомления в Telegram и Email при выполнении заданных условий.
+Админ-страница показывает текущие цены и список подписчиков. Подписчики на сайт не заходят — только получают сообщения.
 
-Возможности
-Асинхронный REST API клиент (aiohttp)
-Мониторинг цен криптовалют
-Гибкая система алертов
-Telegram уведомления
-Email уведомления (Gmail SMTP)
-Anti-spam логика для алертов
-Сохранение состояния алертов
-Система логирования
-Сохранение данных в JSON
-Поддержка Docker
-Поддержка .env
-Adaptive polling при API rate limits
-Архитектура в стиле production backend
-Поддерживаемые криптовалюты
+## Стек
 
-Можно отслеживать любые криптовалюты, поддерживаемые CoinGecko API.
+Python 3.13, asyncio, aiohttp, FastAPI, Jinja2, SQLite, SQLAlchemy, Telegram Bot API, Gmail SMTP, Docker Compose, pytest.
 
-Примеры:
+## Как устроено
 
-Bitcoin (BTC)
-Ethereum (ETH)
-Litecoin (LTC)
-Celestia (TIA)
-Используемые технологии
-Python 3.13
-Asyncio
-Aiohttp
-Docker
-SMTP
-Telegram Bot API
-Структура проекта
-app/
-├── api/
-├── services/
-├── storage/
-├── utils/
-├── config.py
-├── main.py
-Установка
-Клонирование репозитория
-git clone <your_repo_url>
-cd crypto-alert-service
-Создание виртуального окружения
-python -m venv .venv
-Активация виртуального окружения
+Воркер опрашивает API, пишет цены в SQLite и рисует их на `/`. При срабатывании порога сообщения уходят **активным** пользователям по их флагам Email / Telegram. Состояние алертов сохраняется, чтобы не спамить, пока цена снова не выйдет из условия.
 
-Windows:
+Секреты отправителя — в `.env`. Получатели — в админке.  
+`enabled` в `config.json` — «сервер умеет этот канал»; галки на пользователе — «этому человеку слать».
 
-.venv\Scripts\activate
+## Запуск
 
-Linux/macOS:
+Скопируйте `.env.example` в `.env`, заполните `EMAIL_USER`, `EMAIL_PASSWORD` (пароль приложения Gmail) и `TELEGRAM_TOKEN`. Chat id подписчика указывается в форме Add user; человек должен один раз написать боту `/start`.
 
-source .venv/bin/activate
-Установка зависимостей
-pip install -r requirements.txt
-Переменные окружения
+Локально (из корня проекта):
 
-Создайте .env файл в корне проекта:
+```bash
+uvicorn app.web:app --reload --port 8080
+```
 
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASSWORD=your_app_password
+Админка: http://127.0.0.1:8080  
+Не запускайте параллельно `python -m app.main`.
 
-TELEGRAM_TOKEN=your_telegram_bot_token
-TELEGRAM_CHAT_ID=your_chat_id
-Запуск приложения
-python -m app.main
-Запуск через Docker
-Сборка Docker image
-docker build -t crypto-alert-service .
-Запуск контейнера
-docker run --env-file .env crypto-alert-service
-Пример уведомления
-🚨 ₿ BTC price ABOVE 100000.00
+Docker:
 
-Current price BTC: 81466.37 USD
-Возможные улучшения
-Windows background service
-Installer (.exe)
-Поддержка базы данных
-Web dashboard
-WebSocket real-time updates
-Интеграция FastAPI
-Лицензия
+```bash
+docker compose up --build
+```
+
+Тесты: `pytest -q`
+
+## Лицензия
 
 MIT License
