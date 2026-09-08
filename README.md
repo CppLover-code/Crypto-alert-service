@@ -34,8 +34,8 @@ An admin page shows live prices and lets you add subscribers. Subscribers do not
 ## Setup
 
 ```bash
-git clone <your_repo_url>
-cd "Crypto alert service"
+git clone https://github.com/CppLover-code/Crypto-alert-service.git
+cd Crypto-alert-service
 python -m venv .venv
 ```
 
@@ -156,6 +156,11 @@ Python 3.13, asyncio, aiohttp, FastAPI, Jinja2, SQLite, SQLAlchemy, Telegram Bot
 `enabled` в `config.json` — «сервер умеет этот канал»; галки на пользователе — «этому человеку слать».
 
 ## Запуск
+
+```bash
+git clone https://github.com/CppLover-code/Crypto-alert-service.git
+cd Crypto-alert-service
+```
 
 Скопируйте `.env.example` в `.env`, заполните `EMAIL_USER`, `EMAIL_PASSWORD` (пароль приложения Gmail) и `TELEGRAM_TOKEN`. Chat id подписчика указывается в форме Add user; человек должен один раз написать боту `/start`.
 

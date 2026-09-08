@@ -2,6 +2,10 @@
 .venv/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 *.db
 data/app.db
+data/*.json
 logs/
+.cursor/
