@@ -53,13 +53,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Copy `.env.example` to `.env` in the project root:
-
-```env
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASSWORD=your_gmail_app_password
-TELEGRAM_TOKEN=your_telegram_bot_token
-```
+Copy `.env.example` to `.env` in the project root and fill in the values. Do not commit `.env`. The only env template in this repository is `.env.example`.
 
 Gmail needs an [app password](https://support.google.com/accounts/answer/185833), not the normal account password.  
 Telegram: create a bot via [@BotFather](https://t.me/BotFather), then the subscriber must send `/start` to the bot before it can message them. Chat id is entered in the admin form, not in `.env`.
