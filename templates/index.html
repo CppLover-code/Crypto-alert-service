@@ -1,105 +1,117 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/style.css">
     <meta http-equiv="refresh" content="60">
-    <title>Crypto Alert — цены</title>
+    <title>Crypto Alert — prices</title>
 </head>
+
 <body>
-    <h1>Current prices</h1>
-    <p>Admin monitor. Subscribers do not use this page.</p>
+    <div class="page">
+        <h1>Current prices</h1>
+        <p>Admin monitor. Subscribers do not use this page.</p>
 
-    <h2>Coins</h2>
-    <table border="1" cellpadding="8">
-        <thead>
-            <tr>
-                <th>Symbol</th>
-                <th>CoinGecko id</th>
-                <th>Price (USD)</th>
-                <th>Updated (UTC)</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for coin in coins %}
-            <tr>
-                <td>{{ coin.symbol }}</td>
-                <td>{{ coin.coingecko_id }}</td>
-                <td>
-                    {% if coin.price %}
-                        {{ coin.price.value }}
+        <h2>Coins</h2>
+        <section class="card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>CoinGecko id</th>
+                        <th class="price">Price (USD)</th>
+                        <th>Updated (UTC)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for coin in coins %}
+                    <tr>
+                        <td>{{ coin.symbol }}</td>
+                        <td>{{ coin.coingecko_id }}</td>
+                        <td>
+                            {% if coin.price %}
+                            {{ coin.price.value }}
+                            {% else %}
+                            —
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if coin.price %}
+                            {{ coin.price.updated_at }}
+                            {% else %}
+                            —
+                            {% endif %}
+                        </td>
+                    </tr>
                     {% else %}
-                        —
-                    {% endif %}
-                </td>
-                <td>
-                    {% if coin.price %}
-                        {{ coin.price.updated_at }}
+                    <tr>
+                        <td colspan="4">No coins yet</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+
+        <h2>Users</h2>
+        <section class="card">
+            <p><a href="/users/new" class="btn-primary">Add user</a></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Telegram</th>
+                        <th>Notify email</th>
+                        <th>Notify telegram</th>
+                        <th>Active</th>
+                        <th>On/Off</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.email or '-' }}</td>
+                        <td>{{ user.telegram_chat_id or '-' }}</td>
+                        <td>
+                            <form method="post" action="/users/{{ user.id }}/toggle-email">
+                                <button type="submit"
+                                    class="{% if user.notify_email %}btn-on{% else %}btn-off{% endif %}">
+                                    {% if user.notify_email %}Email on{% else %}Email off{% endif %}
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post" action="/users/{{ user.id }}/toggle-telegram">
+                                <button type="submit"
+                                    class="{% if user.notify_telegram %}btn-on{% else %}btn-off{% endif %}">
+                                    {% if user.notify_telegram %}Telegram on{% else %}Telegram off{% endif %}
+                                </button>
+                            </form>
+                        </td>
+                        <td>{{ user.active }}</td>
+                        <td>
+                            <form method="post" action="/users/{{ user.id }}/toggle-active">
+                                <button type="submit" class="{% if user.active %}btn-danger{% else %}btn-on{% endif %}">
+                                    {% if user.active %}Deactivate{% else %}Activate{% endif %}
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
                     {% else %}
-                        —
-                    {% endif %}
-                </td>
-            </tr>
-            {% else %}
-            <tr>
-                <td colspan="4">No coins yet</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <h2>Users</h2>
-    <p><a href="/users/new">Add user</a></p>
-    <table border="1" cellpadding="8">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Telegram</th>
-                <th>Notify email</th>
-                <th>Notify telegram</th>
-                <th>Active</th>
-                <th>On/Off</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.email or '-' }}</td>
-                <td>{{ user.telegram_chat_id or '-' }}</td>
-                <td>
-                    <form method="post" action="/users/{{ user.id }}/toggle-email">
-                        <button type="submit">
-                            {% if user.notify_email %}Email on{% else %}Email off{% endif %}
-                        </button>
-                    </form>
-                </td>
-                <td>
-                    <form method="post" action="/users/{{ user.id }}/toggle-telegram">
-                        <button type="submit">
-                            {% if user.notify_telegram %}Telegram on{% else %}Telegram off{% endif %}
-                        </button>
-                    </form>
-                </td>
-                <td>{{ user.active }}</td>
-                <td>
-                    <form method="post" action="/users/{{ user.id }}/toggle-active">
-                        <button type="submit">
-                            {% if user.active %}Deactivate{% else %}Activate{% endif %}
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            {% else %}
-            <tr>
-                <td colspan="8">No users yet</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
+                    <tr>
+                        <td colspan="8">No users yet</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
 </body>
-</html>
 
+</html>

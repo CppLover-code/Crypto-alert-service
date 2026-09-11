@@ -1,0 +1,141 @@
+:root {
+    --bg: #f3f6fb;
+    --card: #ffffff;
+    --text: #1a2332;
+    --muted: #5c6b80;
+    --accent: #0d9488;
+    --accent-hover: #0f766e;
+    --on: #059669;
+    --off: #94a3b8;
+    --danger: #dc2626;
+    --line: #e2e8f0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.45;
+}
+
+.page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 20px 48px;
+}
+
+.card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 24px rgba(26, 35, 50, 0.06);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+}
+
+th {
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+tbody tr:hover {
+    background: #f8fafc;
+}
+
+.price {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+}
+
+td form {
+    margin: 0;
+    display: inline;
+}
+
+button {
+    border: none;
+    border-radius: 999px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-weight: 600;
+    color: white;
+}
+
+.btn-on {
+    background: var(--on);
+}
+
+.btn-off {
+    background: var(--off);
+}
+
+.btn-danger {
+    background: var(--danger);
+}
+
+.btn-primary {
+    background: var(--accent);
+}
+
+button:hover {
+    filter: brightness(1.08);
+}
+
+a.btn-primary {
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--accent);
+}
+
+.error {
+    background: #fef2f2;
+    color: #991b1b;
+    padding: 12px 16px;
+    border-radius: 8px;
+}
+
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    max-width: 420px;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+}
+
+label {
+    font-weight: 600;
+}
+
+.back-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.back-link:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}

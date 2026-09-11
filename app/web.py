@@ -3,6 +3,7 @@ import asyncio
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 
 from app.db import get_session, init_db
 from app.storage.repositories import (
@@ -17,6 +18,7 @@ from app.storage.repositories import (
 from app.worker import run_worker
 
 app = FastAPI(title="Crypto Alert Service")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 
