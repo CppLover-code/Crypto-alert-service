@@ -1,7 +1,7 @@
 import asyncio
 
 from fastapi import FastAPI, Form, Request
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
@@ -61,6 +61,26 @@ def prices_page(request: Request):
     finally:
         session.close()
 
+@app.get("/api/prices")
+def prices_api():
+    session = get_session()
+    try:
+        coins = list_coins_with_prices(session)
+        payload = []
+        for coin in coins:
+            item = {
+                "symbol": coin.symbol,
+                "coingecko_id": coin.coingecko_id,
+                "price": None,
+                "updated_at": None,
+            }
+            if coin.price is not None:
+                item["price"] = str(coin.price.value)
+                item["updated_at"] = coin.price.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+            payload.append(item)
+        return JSONResponse({"coins": payload})
+    finally:
+        session.close()
 
 @app.get("/users/new", response_class=HTMLResponse)
 def new_user_page(request: Request):
