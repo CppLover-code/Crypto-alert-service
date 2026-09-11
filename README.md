@@ -12,6 +12,12 @@ This is a **finished local tool**, not a multi-tenant SaaS. The admin UI has no 
 
 <p align="center"><em>Dashboard — prices from SQLite, subscribers with Email / Telegram / Active toggles.</em></p>
 
+<p align="center">
+  <img src="docs/add_user.png" alt="Add user form with name, email, Telegram chat id, and notify checkboxes" width="720">
+</p>
+
+<p align="center"><em>Add user — channel checkboxes are validated against the contact fields.</em></p>
+
 ---
 
 ## What it demonstrates
@@ -36,12 +42,6 @@ This is a **finished local tool**, not a multi-tenant SaaS. The admin UI has no 
 - Alerts go only to **active** users whose flags and contact fields match
 - A fired threshold stays quiet until the price leaves the range and enters it again
 - Server credentials stay in `.env`; recipient addresses live in the database
-
-<p align="center">
-  <img src="docs/add_user.png" alt="Add user form with name, email, Telegram chat id, and notify checkboxes" width="720">
-</p>
-
-<p align="center"><em>Add user — channel checkboxes are validated against the contact fields.</em></p>
 
 Example alert:
 
